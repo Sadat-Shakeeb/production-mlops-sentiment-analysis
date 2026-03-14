@@ -172,4 +172,11 @@ cython_debug/
 cred.txt
 local_s3/
 
-models/
+models/*
+!models/.gitkeep
+
+data/*
+!data/.gitkeep
+
+models/*
+!models/.gitkeep
