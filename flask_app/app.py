@@ -114,22 +114,16 @@ PREDICTION_COUNT = Counter(
 # Model and vectorizer setup
 model_name = "my_model"
 
-def get_latest_model_version(model_name):
-    client = mlflow.MlflowClient()
-    versions = client.search_model_versions(f"name='{model_name}'")
-    
-    if not versions:
-        raise Exception("No model versions found")
-    
-    latest_version = max(int(v.version) for v in versions)
-    return latest_version
+# Model and vectorizer setup
 
-model_version = get_latest_model_version(model_name)
+MODEL_ALIAS = "champion"
 
-model_uri = f"models:/{model_name}/{model_version}"
+model_uri = f"models:/my_model@{MODEL_ALIAS}"
+
 print(f"Fetching model from: {model_uri}")
 
 model = mlflow.pyfunc.load_model(model_uri)
+
 vectorizer = pickle.load(open('models/vectorizer.pkl', 'rb'))
 
 # Routes

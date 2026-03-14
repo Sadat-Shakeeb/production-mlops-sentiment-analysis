@@ -20,8 +20,8 @@ class TestModelLoading(unittest.TestCase):
         os.environ["MLFLOW_TRACKING_PASSWORD"] = dagshub_token
 
         dagshub_url = "https://dagshub.com"
-        repo_owner = "vikashdas770"
-        repo_name = "YT-Capstone-Project"
+        repo_owner = "Sadat-Shakeeb"
+        repo_name = "production-mlops-sentiment-analysis"
 
         # Set up MLflow tracking URI
         mlflow.set_tracking_uri(f'{dagshub_url}/{repo_owner}/{repo_name}.mlflow')
@@ -39,10 +39,15 @@ class TestModelLoading(unittest.TestCase):
         cls.holdout_data = pd.read_csv('data/processed/test_bow.csv')
 
     @staticmethod
-    def get_latest_model_version(model_name, stage="Staging"):
+    def get_latest_model_version(model_name):
         client = mlflow.MlflowClient()
-        latest_version = client.get_latest_versions(model_name, stages=[stage])
-        return latest_version[0].version if latest_version else None
+        versions = client.search_model_versions(f"name='{model_name}'")
+
+        if not versions:
+            raise Exception("No model versions found")
+
+        latest_version = max(int(v.version) for v in versions)
+        return latest_version
 
     def test_model_loaded_properly(self):
         self.assertIsNotNone(self.new_model)
