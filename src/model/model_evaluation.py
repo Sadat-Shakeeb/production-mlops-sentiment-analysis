@@ -136,11 +136,11 @@ def main():
             # Log model to MLflow
             # mlflow.sklearn.log_model(clf, "model")
             # Log and register model in MLflow
-            mlflow.sklearn.log_model(
+                mlflow.sklearn.log_model(
                 clf,
-                name="model",
+                artifact_path="model",
                 registered_model_name="my_model"
-            )
+                 )
 
             # Save model info
             save_model_info(run.info.run_id, "model", 'reports/experiment_info.json')
