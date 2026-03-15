@@ -1,7 +1,6 @@
 import os
 import mlflow
 
-
 def promote_model():
 
     dagshub_token = os.getenv("CAPSTONE_TEST")
@@ -22,8 +21,7 @@ def promote_model():
 
     # Get latest model version
     versions = client.search_model_versions(f"name='{model_name}'")
-    latest_version = max(int(v.version) for v in versions)
-
+    latest_version = str(max(int(v.version) for v in versions))
     # Assign production alias
     client.set_registered_model_alias(
         name=model_name,
